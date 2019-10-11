@@ -40,7 +40,8 @@ const SearchScreen = ({ navigation }) => {
         onTermChange={setTerm}
         onTermSubmit={() =>
           navigation.navigate('Results', {
-            category: term
+            category: term,
+            page: 1
           })
         }
       />

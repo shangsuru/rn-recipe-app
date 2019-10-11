@@ -19,7 +19,7 @@ const ResultsShowScreen = ({ navigation }) => {
       setRecipes(results)
     } else {
       let results = await fetch(
-        `https://postgres-recipe-api.herokuapp.com/recipes?q=${category}`
+        `https://postgres-recipe-api.herokuapp.com/recipes?q=${category}&page=${page}`
       ).then(response => response.json())
       setRecipes(results)
     }
