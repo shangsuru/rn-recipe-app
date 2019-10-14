@@ -10,19 +10,10 @@ const ResultsShowScreen = ({ navigation }) => {
   const [recipes, setRecipes] = useState([])
 
   const getRecipes = async () => {
-    if (
-      ['breakfast', 'dinner', 'snacks', 'desserts', 'drinks'].includes(category)
-    ) {
-      let results = await fetch(
-        `https://postgres-recipe-api.herokuapp.com/recipes/category/${category}?page=${page}`
-      ).then(response => response.json())
-      setRecipes(results)
-    } else {
-      let results = await fetch(
-        `https://postgres-recipe-api.herokuapp.com/recipes?q=${category}&page=${page}`
-      ).then(response => response.json())
-      setRecipes(results)
-    }
+    let results = await fetch(
+      `https://postgres-recipe-api.herokuapp.com/recipes/category/${category}?page=${page}`
+    ).then(response => response.json())
+    setRecipes(results)
   }
 
   useEffect(() => {

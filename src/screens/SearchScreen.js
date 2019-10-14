@@ -28,8 +28,8 @@ const SearchScreen = ({ navigation }) => {
       image: require('../images/snacks.jpg')
     },
     {
-      text: 'Add',
-      image: require('../images/add.png')
+      text: 'Asian',
+      image: require('../images/asian.jpg')
     }
   ]
 
