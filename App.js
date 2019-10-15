@@ -1,5 +1,5 @@
 import React from 'react'
-import { createAppContainer } from 'react-navigation'
+import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { createStackNavigator } from 'react-navigation-stack'
 import SearchScreen from './src/screens/SearchScreen'
@@ -9,6 +9,8 @@ import RecipeDetailScreen from './src/screens/RecipeDetailScreen'
 import FavoriteScreen from './src/screens/FavoriteScreen'
 import ProfileScreen from './src/screens/ProfileScreen'
 import { Feather } from '@expo/vector-icons'
+import LoginScreen from './src/screens/LoginScreen'
+import RegisterScreen from './src/screens/RegisterScreen'
 
 const stackNavigator = createStackNavigator(
   {
@@ -67,4 +69,15 @@ const bottomTabNavigator = createBottomTabNavigator(
   }
 )
 
-export default createAppContainer(bottomTabNavigator)
+const switchNavigator = createSwitchNavigator(
+  {
+    Login: LoginScreen,
+    Register: RegisterScreen,
+    App: bottomTabNavigator
+  },
+  {
+    initialRouteName: 'Login'
+  }
+)
+
+export default createAppContainer(switchNavigator)
