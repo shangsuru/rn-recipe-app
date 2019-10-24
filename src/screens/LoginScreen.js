@@ -2,18 +2,44 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, Button, TextInput } from 'react-native'
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [message, setMessage] = useState('')
+
+  const userLogin = async () => {
+    try {
+      const loginData = await fetch(
+        'https://postgres-recipe-api.herokuapp.com/users/login',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: `${username}`,
+            userpassword: `${password}`
+          })
+        }
+      ).then(response => response.json())
+      const token = loginData['token']
+      navigation.navigate('App', { username, token })
+    } catch (e) {
+      console.log(e)
+      setMessage('Login failed')
+    }
+  }
 
   return (
     <View>
       <Text style={{ marginTop: 50, fontSize: 25 }}>LoginScreen</Text>
       <TextInput
         style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-        onChangeText={text => setEmail(text)}
-        value={email}
-        placeholder='Email'
+        onChangeText={text => setUsername(text)}
+        value={username}
+        placeholder='Username'
         autoCorrect={false}
+        autoCapitalize='none'
       />
       <TextInput
         style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
@@ -23,7 +49,8 @@ const LoginScreen = ({ navigation }) => {
         autoCorrect={false}
         secureTextEntry={true}
       />
-      <Button title='Login' onPress={() => navigation.navigate('App')} />
+      <Text>{message}</Text>
+      <Button title='Login' onPress={() => userLogin()} />
       <Button
         title='Create account'
         onPress={() => navigation.navigate('Register')}
