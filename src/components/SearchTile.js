@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   View,
   TouchableOpacity,
@@ -6,25 +6,27 @@ import {
   Text,
   Image,
   Dimensions
-} from "react-native";
-let { width, height } = Dimensions.get("window");
+} from 'react-native'
+let { width, height } = Dimensions.get('window')
 
-const SearchTile = ({ text, image, navigation}) => {
+const SearchTile = ({ text, image, navigation, token }) => {
   return (
     <View style={{ marginHorizontal: 10 }}>
       <Text style={styles.text}>{text}</Text>
       <TouchableOpacity
         onPress={() => {
-          text === "Add"
-            ? navigation.navigate("Add")
-            : navigation.navigate("Results", { category: text.toLowerCase(), page: 1 });
+          navigation.navigate('Results', {
+            category: text.toLowerCase(),
+            page: 1,
+            token: token
+          })
         }}
       >
         <Image style={styles.image} source={image}></Image>
       </TouchableOpacity>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   image: {
@@ -33,8 +35,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontWeight: "bold"
+    fontWeight: 'bold'
   }
-});
+})
 
-export default SearchTile;
+export default SearchTile

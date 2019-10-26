@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ScrollView, Text, StyleSheet, FlatList } from 'react-native'
+import { ScrollView, StyleSheet, FlatList } from 'react-native'
 import RecipePreview from '../components/RecipePreview'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Feather } from '@expo/vector-icons'
@@ -8,10 +8,16 @@ const ResultsShowScreen = ({ navigation }) => {
   const category = navigation.getParam('category')
   const [page, setPage] = useState(navigation.getParam('page'))
   const [recipes, setRecipes] = useState([])
+  const [token, setToken] = useState(navigation.getParam('token'))
 
   const getRecipes = async () => {
     let results = await fetch(
-      `https://postgres-recipe-api.herokuapp.com/recipes/category/${category}?page=${page}`
+      `https://postgres-recipe-api.herokuapp.com/recipes/category/${category}?page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
     ).then(response => response.json())
     setRecipes(results)
   }
@@ -29,7 +35,10 @@ const ResultsShowScreen = ({ navigation }) => {
           return (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('Detail', { name: item.recipe_name })
+                navigation.navigate('Detail', {
+                  name: item.recipe_name,
+                  token: token
+                })
               }
             >
               <RecipePreview

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Button, TextInput } from 'react-native'
+import { View, Text, StyleSheet, Button, TextInput, AsyncStorage } from 'react-native'
 
 const RegisterScreen = ({ navigation }) => {
   const [username, setUsername] = useState('')
@@ -24,7 +24,8 @@ const RegisterScreen = ({ navigation }) => {
     if (rawResponse.status === 201) {
       const response = await rawResponse.json()
       const token = response['token']
-      navigation.navigate('App', { username, token })
+      AsyncStorage.setItem('token', token)
+      navigation.navigate('App')
     } else {
       setMessage('Username already taken')
     }

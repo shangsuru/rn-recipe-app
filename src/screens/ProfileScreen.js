@@ -1,11 +1,57 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { ScrollView, StyleSheet, FlatList, AsyncStorage } from 'react-native'
+import RecipePreview from '../components/RecipePreview'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }) => {
+  const [recipes, setRecipes] = useState([])
+  const [token, setToken] = useState('')
+
+  useEffect(() => {
+    getRecipes()
+  }, [])
+
+  const getRecipes = async () => {
+    let authToken = await AsyncStorage.getItem('token')
+    setToken(authToken)
+    let results = await fetch(
+      'https://postgres-recipe-api.herokuapp.com/users/recipes',
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      }
+    ).then(response => response.json())
+    setRecipes(results)
+  }
+
   return (
-    <View>
-      <Text style={{ marginTop: 50, fontSize: 25 }}>ProfileScreen</Text>
-    </View>
+    <ScrollView>
+      <FlatList
+        horizontal={true}
+        keyExtractor={item => item.recipe_name}
+        data={recipes}
+        renderItem={({ item }) => {
+          return (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('Detail', {
+                  name: item.recipe_name,
+                  token: token
+                })
+              }
+            >
+              <RecipePreview
+                recipe_name={item.recipe_name}
+                recipe_img={item.recipe_img}
+                rating={item.rating}
+                prep_time={item.prep_time}
+              />
+            </TouchableOpacity>
+          )
+        }}
+      />
+    </ScrollView>
   )
 }
 

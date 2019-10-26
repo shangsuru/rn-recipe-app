@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { View, FlatList, StyleSheet } from 'react-native'
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  AsyncStorage,
+} from 'react-native'
 import SearchBar from '../components/SearchBar'
 import SearchTile from '../components/SearchTile'
 
 const SearchScreen = ({ navigation }) => {
   const [term, setTerm] = useState('')
+  const [token, setToken] = useState('')
+  
+  useEffect(() => {
+    AsyncStorage.getItem('token').then(data => setToken(data))
+  }, [])
 
   searchTileInfo = [
     {
@@ -41,7 +51,8 @@ const SearchScreen = ({ navigation }) => {
         onTermSubmit={() =>
           navigation.navigate('Results', {
             category: term,
-            page: 1
+            page: 1,
+            token: token
           })
         }
       />
@@ -54,6 +65,7 @@ const SearchScreen = ({ navigation }) => {
               text={item.text}
               image={item.image}
               navigation={navigation}
+              token={token}
             />
           )
         }}

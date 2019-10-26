@@ -15,7 +15,12 @@ const RecipeDetailScreen = ({ navigation }) => {
     let result = await fetch(
       `https://postgres-recipe-api.herokuapp.com/recipes/${navigation.getParam(
         'name'
-      )}`
+      )}`,
+      {
+        headers: {
+          Authorization: `Bearer ${navigation.getParam('token')}`
+        }
+      }
     ).then(response => response.json())
     setImage(result.recipe_img)
     setInstructions(result.instructions)
@@ -32,7 +37,6 @@ const RecipeDetailScreen = ({ navigation }) => {
   return (
     <View>
       <Text>{name}</Text>
-      <Text>{image}</Text>
       <Image style={styles.image} source={{ uri: image }} />
       <Text>
         <Feather name='thumbs-up' />

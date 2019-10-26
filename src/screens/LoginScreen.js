@@ -1,10 +1,30 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, Button, TextInput } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TextInput,
+  AsyncStorage
+} from 'react-native'
+import jwt_decode from 'jwt-decode'
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    ifTokenAvailableLogin()
+  }, [])
+
+  const ifTokenAvailableLogin = async () => {
+    const token = await AsyncStorage.getItem('token')
+    const exp= jwt_decode(token).exp
+    if (exp !== null && Date.now() < exp * 1000) {
+      navigation.navigate('App')
+    }
+  }
 
   const userLogin = async () => {
     try {
@@ -23,7 +43,8 @@ const LoginScreen = ({ navigation }) => {
         }
       ).then(response => response.json())
       const token = loginData['token']
-      navigation.navigate('App', { username, token })
+      await AsyncStorage.setItem('token', token)
+      navigation.navigate('App')
     } catch (e) {
       console.log(e)
       setMessage('Login failed')
