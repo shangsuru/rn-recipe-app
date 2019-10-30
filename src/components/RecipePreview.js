@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 
@@ -10,6 +10,9 @@ const RecipePreview = ({
   navigation,
   token
 }) => {
+  const [buttonPressed, setButtonPressed] = useState(false)
+  const [likes, setLikes] = useState(rating)
+
   return (
     <View style={styles.container}>
       <View>
@@ -26,10 +29,21 @@ const RecipePreview = ({
       </View>
       <View>
         <Text style={styles.title}>{recipe_name}</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            if (!buttonPressed) {
+              setLikes(likes + 1)
+              setButtonPressed(true)
+            }
+          }}
+        >
           <Text style={styles.feature}>
-            <Feather name='thumbs-up' size={30} />
-            {rating}
+            <Feather
+              name='thumbs-up'
+              size={30}
+              color={buttonPressed ? 'orange' : 'black'}
+            />
+            {likes}
           </Text>
         </TouchableOpacity>
         <Text style={styles.feature}>
