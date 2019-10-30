@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Button, TextInput, AsyncStorage } from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  AsyncStorage
+} from 'react-native'
 
 const RegisterScreen = ({ navigation }) => {
   const [username, setUsername] = useState('')
@@ -50,16 +57,36 @@ const RegisterScreen = ({ navigation }) => {
         autoCorrect={false}
         secureTextEntry={true}
       />
-      <Button title='Register' onPress={() => signup()} />
-      <Button
-        title='Back to Login'
-        onPress={() => navigation.navigate('Register')}
-      />
+
+      <TouchableOpacity style={styles.button} onPress={() => signup()}>
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Login')}
+      >
+        <Text style={styles.buttonText}>Back to Login</Text>
+      </TouchableOpacity>
+
       <Text>{message}</Text>
     </View>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  button: {
+    borderWidth: 1,
+    borderColor: '#007BFF',
+    backgroundColor: '#007BFF',
+    padding: 15,
+    margin: 5
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    textAlign: 'center'
+  }
+})
 
 export default RegisterScreen

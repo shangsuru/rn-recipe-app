@@ -3,7 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
+  TouchableOpacity,
   TextInput,
   AsyncStorage
 } from 'react-native'
@@ -20,7 +20,7 @@ const LoginScreen = ({ navigation }) => {
 
   const ifTokenAvailableLogin = async () => {
     const token = await AsyncStorage.getItem('token')
-    const exp= jwt_decode(token).exp
+    const exp = jwt_decode(token).exp
     if (exp !== null && Date.now() < exp * 1000) {
       navigation.navigate('App')
     }
@@ -71,15 +71,34 @@ const LoginScreen = ({ navigation }) => {
         secureTextEntry={true}
       />
       <Text>{message}</Text>
-      <Button title='Login' onPress={() => userLogin()} />
-      <Button
-        title='Create account'
+
+      <TouchableOpacity style={styles.button} onPress={() => userLogin()}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
         onPress={() => navigation.navigate('Register')}
-      />
+      >
+        <Text style={styles.buttonText}>Create Account</Text>
+      </TouchableOpacity>
     </View>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  button: {
+    borderWidth: 1,
+    borderColor: '#007BFF',
+    backgroundColor: '#007BFF',
+    padding: 15,
+    margin: 5
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    textAlign: 'center'
+  }
+})
 
 export default LoginScreen
