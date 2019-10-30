@@ -33,21 +33,14 @@ const ResultsShowScreen = ({ navigation }) => {
         data={recipes}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('Detail', {
-                  name: item.recipe_name,
-                  token: token
-                })
-              }
-            >
-              <RecipePreview
-                recipe_name={item.recipe_name}
-                recipe_img={item.recipe_img}
-                rating={item.rating}
-                prep_time={item.prep_time}
-              />
-            </TouchableOpacity>
+            <RecipePreview
+              navigation={navigation}
+              token={token}
+              recipe_name={item.recipe_name}
+              recipe_img={item.recipe_img}
+              rating={item.rating}
+              prep_time={item.prep_time}
+            />
           )
         }}
       />

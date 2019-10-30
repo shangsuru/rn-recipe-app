@@ -28,7 +28,6 @@ const ProfileScreen = ({ navigation }) => {
   return (
     <ScrollView>
       <FlatList
-        horizontal={true}
         keyExtractor={item => item.recipe_name}
         data={recipes}
         renderItem={({ item }) => {
