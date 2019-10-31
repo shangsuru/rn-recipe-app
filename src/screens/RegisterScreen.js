@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 60,
-    width: 400,
+    width: 350,
     fontSize: 20,
     borderRadius: 4,
     borderWidth: 1,

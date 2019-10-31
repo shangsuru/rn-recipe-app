@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, FlatList, Dimensions } from 'react-native'
 import { Feather } from '@expo/vector-icons'
+
+let { width, height } = Dimensions.get('window')
 
 const RecipeDetailScreen = ({ navigation }) => {
   const [name, setName] = useState(navigation.getParam('name'))
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
     margin: 20
   },
   title: {
-    fontSize: 50,
+    fontSize: width/12,
     fontWeight: 'bold',
     marginBottom: 20
   },
@@ -98,14 +100,13 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1,
     borderColor: '#d6d7da',
-    fontSize: 25
+    fontSize: width/25
   },
   ingredient: {
-    textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 100,
-    marginRight: 100,
+    width: '80%',
+    alignSelf: 'center',
+    marginVertical: 10,
+    
     padding: 15,
     backgroundColor: '#22A7F0'
   }

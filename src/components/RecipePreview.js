@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Text, Image, TouchableOpacity, Dimensions } from 'react-native'
 import { Feather } from '@expo/vector-icons'
+
+let { width, height } = Dimensions.get('window')
 
 const RecipePreview = ({
   recipe_name,
@@ -15,7 +17,7 @@ const RecipePreview = ({
   const [likes, setLikes] = useState(rating)
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} elevation={5}>
       <View>
         <TouchableOpacity
           onPress={() =>
@@ -107,14 +109,14 @@ const RecipePreview = ({
           <Text style={styles.feature}>
             <Feather
               name='thumbs-up'
-              size={30}
+              size={width/30}
               color={buttonPressed ? 'orange' : 'black'}
             />
             {likes}
           </Text>
         </TouchableOpacity>
         <Text style={styles.feature}>
-          <Feather name='clock' size={30} />
+          <Feather name='clock' size={width/30} />
           {prep_time} min
         </Text>
       </View>
@@ -135,17 +137,17 @@ const styles = StyleSheet.create({
     shadowRadius: 4
   },
   title: {
-    fontSize: 25,
+    fontSize: width / 25,
     fontWeight: 'bold',
-    marginBottom: 15
+    marginBottom: 10
   },
   feature: {
-    fontSize: 25,
-    margin: 10
+    fontSize: width / 25,
+    margin: 7
   },
   image: {
-    width: 200,
-    height: 150,
+    width: width * 0.3,//200,
+    height: height * 0.15,//150,
     marginRight: 15
   }
 })

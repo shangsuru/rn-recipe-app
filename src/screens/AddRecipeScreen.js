@@ -7,11 +7,14 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
-  AsyncStorage
+  AsyncStorage,
+  Dimensions 
 } from 'react-native'
 import jwt_decode from 'jwt-decode'
 import RadioForm from 'react-native-simple-radio-button'
 import { Feather } from '@expo/vector-icons'
+
+let { width, height } = Dimensions.get('window')
 
 const AddRecipeScreen = () => {
   const [token, setToken] = useState('')
@@ -64,7 +67,7 @@ const AddRecipeScreen = () => {
 
   return (
     <ScrollView style={styles.background}>
-      <View style={styles.container}>
+      <View style={styles.container} elevation={5}>
         <Text style={styles.steps}>
           1. How do you want to call your recipe?
         </Text>
@@ -214,7 +217,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 60,
-    width: 400,
+    width: width * 0.6,
     fontSize: 20,
     borderRadius: 4,
     borderWidth: 1,
@@ -225,7 +228,7 @@ const styles = StyleSheet.create({
   },
   instructionsInput: {
     height: 170,
-    width: 400,
+    width: width * 0.6,
     fontSize: 20,
     borderRadius: 4,
     borderWidth: 1,
@@ -236,7 +239,7 @@ const styles = StyleSheet.create({
   },
   ingredientInput: {
     height: 60,
-    width: 330,
+    width: width * 0.4,
     fontSize: 20,
     borderRadius: 4,
     borderWidth: 1,
@@ -247,7 +250,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   button: {
-    width: 300,
+    width: '80%',
     borderWidth: 1,
     borderColor: '#007BFF',
     backgroundColor: '#007BFF',
