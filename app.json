@@ -26,9 +26,6 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.shangsuru.recipes"
-    },
-    "android": {
-      "bundleIdentifier": "com.shangsuru.recipes"
     }
   }
 }
