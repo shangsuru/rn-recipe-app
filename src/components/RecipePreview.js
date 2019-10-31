@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import { Feather } from '@expo/vector-icons'
+import jwt_decode from 'jwt-decode'
 
 const RecipePreview = ({
   recipe_name,
@@ -34,6 +35,30 @@ const RecipePreview = ({
             if (!buttonPressed) {
               setLikes(likes + 1)
               setButtonPressed(true)
+              const username = jwt_decode(token).username
+              fetch(
+                `https://postgres-recipe-api.herokuapp.com/recipes/${recipe_name}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                  method: 'patch'
+                }
+              )
+              fetch('https://postgres-recipe-api.herokuapp.com/users/favorites', {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                method: 'post',
+                body: {
+                  username: username,
+                  recipe: recipe_name
+                }
+              })
             }
           }}
         >

@@ -52,52 +52,90 @@ const LoginScreen = ({ navigation }) => {
   }
 
   return (
-    <View>
-      <Text style={{ marginTop: 50, fontSize: 25 }}>LoginScreen</Text>
-      <TextInput
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-        onChangeText={text => setUsername(text)}
-        value={username}
-        placeholder='Username'
-        autoCorrect={false}
-        autoCapitalize='none'
-      />
-      <TextInput
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-        onChangeText={text => setPassword(text)}
-        value={password}
-        placeholder='Password'
-        autoCorrect={false}
-        secureTextEntry={true}
-      />
-      <Text>{message}</Text>
+    <View style={styles.background}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Login</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={text => setUsername(text)}
+          value={username}
+          placeholder='Username'
+          autoCorrect={false}
+          autoCapitalize='none'
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={text => setPassword(text)}
+          value={password}
+          placeholder='Password'
+          autoCorrect={false}
+          secureTextEntry={true}
+        />
+        <Text style={styles.message}>{message}</Text>
 
-      <TouchableOpacity style={styles.button} onPress={() => userLogin()}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => userLogin()}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Register')}
-      >
-        <Text style={styles.buttonText}>Create Account</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Register')}
+        >
+          <Text style={styles.buttonText}>Create Account</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  button: {
+  background: {
+    backgroundColor: '#F7CA18',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  container: {
+    backgroundColor: '#FFFFFF',
+    padding: 30,
+    shadowOffset: { width: 5, height: 5 },
+    shadowColor: 'black',
+    shadowOpacity: 1.0,
+    shadowRadius: 8
+  },
+  title: {
+    marginTop: 35,
+    marginBottom: 35,
+    fontSize: 70,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  input: {
+    height: 60,
+    width: 400,
+    fontSize: 20,
+    borderRadius: 4,
     borderWidth: 1,
-    borderColor: '#007BFF',
-    backgroundColor: '#007BFF',
-    padding: 15,
-    margin: 5
+    borderColor: '#AAAAAA',
+    margin: 15,
+    padding: 10
+  },
+  button: {
+    width: 200,
+    backgroundColor: '#22A7F0',
+    padding: 10,
+    margin: 10,
+    alignSelf: 'center'
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: 20,
+    fontSize: 25,
     textAlign: 'center'
+  },
+  message: {
+    color: 'red',
+    textAlign: 'center',
+    margin: 10
   }
 })
 
