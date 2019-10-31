@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   info: {
     padding: 20,
     margin: 20,
-    backgroundColor: '#36D7B7'
+    backgroundColor: '#4B77BE'
   },
   author: {
     marginTop: 20,
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     marginLeft: 100,
     marginRight: 100,
     padding: 15,
-    backgroundColor: '#87D37C'
+    backgroundColor: '#22A7F0'
   }
 })
 
