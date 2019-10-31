@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import { Feather } from '@expo/vector-icons'
-import jwt_decode from 'jwt-decode'
 
 const RecipePreview = ({
   recipe_name,
@@ -9,7 +8,8 @@ const RecipePreview = ({
   rating,
   prep_time,
   navigation,
-  token
+  token,
+  username
 }) => {
   const [buttonPressed, setButtonPressed] = useState(false)
   const [likes, setLikes] = useState(rating)
@@ -35,7 +35,6 @@ const RecipePreview = ({
             if (!buttonPressed) {
               setLikes(likes + 1)
               setButtonPressed(true)
-              const username = jwt_decode(token).username
               fetch(
                 `https://postgres-recipe-api.herokuapp.com/recipes/${recipe_name}`,
                 {
@@ -44,21 +43,64 @@ const RecipePreview = ({
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                   },
-                  method: 'patch'
+                  method: 'patch',
+                  body: JSON.stringify({
+                    amount: 1
+                  })
+                }
+              ).then(
+                fetch(
+                  'https://postgres-recipe-api.herokuapp.com/users/favorites',
+                  {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      Accept: 'application/json',
+                      'Content-Type': 'application/json'
+                    },
+                    method: 'post',
+                    body: JSON.stringify({
+                      username: username,
+                      recipe: recipe_name
+                    })
+                  }
+                )
+              )
+            } else {
+              setButtonPressed(false)
+              fetch(
+                'https://postgres-recipe-api.herokuapp.com/users/favorites',
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                  method: 'delete',
+                  body: JSON.stringify({
+                    username: username,
+                    recipe: recipe_name
+                  })
                 }
               )
-              fetch('https://postgres-recipe-api.herokuapp.com/users/favorites', {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json'
-                },
-                method: 'post',
-                body: {
-                  username: username,
-                  recipe: recipe_name
-                }
-              })
+              if (likes > 0) {
+                setLikes(likes - 1)
+                fetch(
+                  `https://postgres-recipe-api.herokuapp.com/recipes/${recipe_name}`,
+                  {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      Accept: 'application/json',
+                      'Content-Type': 'application/json'
+                    },
+                    method: 'patch',
+                    body: JSON.stringify({
+                      amount: -1
+                    })
+                  }
+                )
+              } else {
+                setLikes(0)
+              }
             }
           }}
         >
@@ -84,11 +126,10 @@ const styles = StyleSheet.create({
   container: {
     margin: 15,
     padding: 20,
-    flex: 1,
     flexDirection: 'row',
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: '#d6d7da'
+    borderColor: '#AAAAAA',
   },
   title: {
     fontSize: 25,

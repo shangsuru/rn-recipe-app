@@ -49,7 +49,7 @@ const profileStackNavigator = createStackNavigator(
   {
     initialRouteName: 'Profile',
     defaultNavigationOptions: {
-      title: 'Profile'
+      title: 'Your own Recipes'
     }
   }
 )

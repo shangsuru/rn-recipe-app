@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { ScrollView, StyleSheet, FlatList } from 'react-native'
+import { ScrollView, View, StyleSheet, FlatList } from 'react-native'
 import RecipePreview from '../components/RecipePreview'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Feather } from '@expo/vector-icons'
+import jwt_decode from 'jwt-decode'
 
 const ResultsShowScreen = ({ navigation }) => {
   const category = navigation.getParam('category')
@@ -40,6 +41,7 @@ const ResultsShowScreen = ({ navigation }) => {
               recipe_img={item.recipe_img}
               rating={item.rating}
               prep_time={item.prep_time}
+              username={jwt_decode(token).username}
             />
           )
         }}
