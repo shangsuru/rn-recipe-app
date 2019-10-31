@@ -124,12 +124,15 @@ const RecipePreview = ({
 
 const styles = StyleSheet.create({
   container: {
-    margin: 15,
+    marginHorizontal: 20,
+    marginVertical: 15,
     padding: 20,
     flexDirection: 'row',
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#AAAAAA',
+    backgroundColor: '#FFFFFF',
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 1.0,
+    shadowRadius: 4
   },
   title: {
     fontSize: 25,

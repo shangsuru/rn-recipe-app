@@ -12,15 +12,31 @@ const ResultsShowScreen = ({ navigation }) => {
   const [token, setToken] = useState(navigation.getParam('token'))
 
   const getRecipes = async () => {
-    let results = await fetch(
-      `https://postgres-recipe-api.herokuapp.com/recipes/category/${category}?page=${page}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
+    if (
+      ['breakfast', 'dinner', 'desserts', 'drinks', 'snacks', 'asian'].includes(
+        category
+      )
+    ) {
+      let results = await fetch(
+        `https://postgres-recipe-api.herokuapp.com/recipes/category/${category}?page=${page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
-      }
-    ).then(response => response.json())
-    setRecipes(results)
+      ).then(response => response.json())
+      setRecipes(results)
+    } else {
+      let results = await fetch(
+        `https://postgres-recipe-api.herokuapp.com/recipes?q=${category}&page=${page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      ).then(response => response.json())
+      setRecipes(results)
+    }
   }
 
   useEffect(() => {
@@ -28,7 +44,7 @@ const ResultsShowScreen = ({ navigation }) => {
   }, [page])
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <FlatList
         keyExtractor={item => item.recipe_name}
         data={recipes}
@@ -46,16 +62,29 @@ const ResultsShowScreen = ({ navigation }) => {
           )
         }}
       />
-      <TouchableOpacity onPress={() => setPage(page === 1 ? 1 : page - 1)}>
-        <Feather name='chevron-left' size={60} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => setPage(page + 1)}>
-        <Feather name='chevron-right' size={60} />
-      </TouchableOpacity>
+      <View style={styles.pagination}>
+        <TouchableOpacity onPress={() => setPage(page === 1 ? 1 : page - 1)}>
+          <Feather name='chevron-left' size={80} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setPage(recipes.length < 3 ? page : page + 1)}
+        >
+          <Feather name='chevron-right' size={80} />
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 30
+  },
+  pagination: {
+    alignSelf: 'center',
+    flexDirection: 'row',
+    margin: 20
+  }
+})
 
 export default ResultsShowScreen

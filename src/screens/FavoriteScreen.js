@@ -26,7 +26,7 @@ const FavoriteScreen = ({ navigation }) => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.background}>
       <FlatList
         keyExtractor={item => item.recipe_name}
         data={recipes}
@@ -54,6 +54,10 @@ const FavoriteScreen = ({ navigation }) => {
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  background: {
+   
+  }
+})
 
 export default FavoriteScreen
